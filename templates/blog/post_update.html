@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+{% block title %}
+Update Post
+{% endblock title %}
+{% block content %} 
+
+<h1>Update Post</h1>
+<div class='form-group'>
+    <form method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class='btn btn-secondary'>Update</button>
+    </form>
+    {% if user.is_superuser or user.id == object.user_id %}
+        <a  href='{% url "article-delete" object.slug %}' class='btn btn-danger'>Delete</a>
+    {% endif %}
+</div>
+{% endblock content %}

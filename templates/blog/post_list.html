@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block title %}
+Blog
+{% endblock title %}
+{% block content %} 
+
+
+{% for post in object_list %}
+    <div class='panel panel-default'>
+        <div class="panel-heading"><a href='{% url "article-detail" post.slug %}'>{{ post.title }}</a> | {{ post.author }} posted {{ post.created_at|timesince }} ago</div>
+            <div class="panel-body">
+            {{ post.body|truncatechars:200 }}
+
+                <div>
+                {% if request.user.is_authenticated and post.author == request.user %}
+                <a href='{% url "article-update" post.slug %}' class='btn'>Edit
+                <a  href='{% url "article-delete" post.slug %}'class='btn btn-danger'>Delete</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endfor %}
+</ul>
+{% endblock content %}

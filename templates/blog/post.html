@@ -1,0 +1,14 @@
+{% extends 'base.html' %} 
+{% block title %}{{ post.title }}{% endblock title %}
+
+{% block content %} 
+    <h1>{{ post.title }}</h1>
+    <div class='content'>{{ post.body|safe }}</div>
+        {% if request.user.is_authenticated and post.author == request.user %}
+        <a href='' class='btn'>Edit</div>
+        {% endif %}
+        {% if user.is_superuser or user.id == object.user_id %}
+        <a  href='{% url "article-delete" object.slug %}' class='btn btn-danger'>Delete</a>
+        {% endif %}
+        <div>{{ post.author }} posted {{ post.created_at|timesince }} ago</div>
+{% endblock content %}
