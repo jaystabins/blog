@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+{% block title %}
+All Tags
+{% endblock title %}
+{% block content %} 
+
+<h1>Tag List</h1>
+{% for tag in object_list %}
+<div class="card">
+  <div class="card-body">
+    {{ tag.name }}
+  </div>
+</div>
+{% endfor %}
+{% endblock content %}

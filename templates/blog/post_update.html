@@ -9,7 +9,8 @@ Update Post
     <form method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-        <button class='btn btn-secondary'>Update</button>
+        <input type='submit' value='Update' >
+        <a  href='{% url "article-delete" object.slug %}'class='badge rounded-pill bg-danger text-decoration-none text-reset'>Delete</a>
     </form>
     {% if user.is_superuser or user.id == object.user_id %}
         <a  href='{% url "article-delete" object.slug %}' class='btn btn-danger'>Delete</a>

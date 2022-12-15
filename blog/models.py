@@ -5,7 +5,6 @@ from django.urls import reverse_lazy, reverse
 
 
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=256, blank=False, null=False)
     slug = models.SlugField(max_length=256, null=False, unique=True)
@@ -29,6 +28,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
+    likes = models.ManyToManyField(User, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,5 +42,8 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
+    def like_count(self):
+        return self.likes.count()
 
 

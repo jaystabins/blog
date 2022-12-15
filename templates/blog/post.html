@@ -2,13 +2,26 @@
 {% block title %}{{ post.title }}{% endblock title %}
 
 {% block content %} 
+<div class='container'>
     <h1>{{ post.title }}</h1>
     <div class='content'>{{ post.body|safe }}</div>
         {% if request.user.is_authenticated and post.author == request.user %}
-        <a href='' class='btn'>Edit</div>
+        <a href='{% url "article-update" post.slug %}' class='badge rounded-pill bg-secondary text-decoration-none'>Edit</a>
+        <a  href='{% url "article-delete" post.slug %}'class='badge rounded-pill bg-danger text-decoration-none'>Delete</a>
         {% endif %}
-        {% if user.is_superuser or user.id == object.user_id %}
-        <a  href='{% url "article-delete" object.slug %}' class='btn btn-danger'>Delete</a>
-        {% endif %}
-        <div>{{ post.author }} posted {{ post.created_at|timesince }} ago</div>
+        <div>
+            
+            <form action='{% url "article-like" post.slug %}' method='post'>
+            {{ post.author|title }} posted {{ post.created_at|timesince }} ago 
+                {% csrf_token %}
+                <button type='submit' class='btn'>
+                    {% if request.user in post.likes.all %}
+                        <i class="fa-solid fa-thumbs-up fa-2xl text-success">
+                    {% else %}
+                        <i class="fa-regular fa-thumbs-up fa-2xl">
+                    {% endif %}</i>{% if post.like_count %}<span class='badge rounded-pill bg-secondary'>{{post.like_count}}</span>{% endif %}
+                </button>
+            </form>
+        </div>
+</div>
 {% endblock content %}
