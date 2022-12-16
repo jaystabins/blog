@@ -8,6 +8,7 @@ Update Post
 <div class='form-group'>
     <form method='post'>
         {% csrf_token %}
+        {{ form.media }}
         {{ form.as_p }}
         <input type='submit' value='Update' >
         <a  href='{% url "article-delete" object.slug %}'class='badge rounded-pill bg-danger text-decoration-none text-reset'>Delete</a>

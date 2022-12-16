@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-brand">
             Blog
@@ -20,7 +20,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_superuser %}
                         <li><a class="dropdown-item" href="{% url 'article-create' %}">Create Article</a></li>
                         <li><a class="dropdown-item" href="{% url 'tag-create' %}">Create Tag</a></li>
                         <li><hr class="dropdown-divider"></li>

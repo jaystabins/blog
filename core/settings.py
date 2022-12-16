@@ -138,7 +138,19 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Link', 'Unlink'],
+            ['CodeSnippet'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
             ['RemoveFormat', 'Source'],
-        ]
+            ['codesnippet'],
+        ],
+        'highlight': {
+            'element': 'pre',
+            'attributes': {
+                'style': 'background: #eee; color: #333;'
+                }
+        },
+        'extraPlugins': 'image2, codesnippet',
+        'filebrowserWindowWidth': 940,
+        'filebrowserWindowHeight': 480,
     }
 }

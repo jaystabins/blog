@@ -5,7 +5,8 @@ from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
+from core.mixins import SuperuserRequiredMixin
 
 class PostView(DetailView):
     model = Post
@@ -31,7 +32,7 @@ class PostFeedView(ListView):
 
         return queryset
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(SuperuserRequiredMixin, LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_add.html'
     form_class = PostForm
@@ -42,7 +43,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         obj.save()
         return super().form_valid(form)
 
-class PostUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+class PostUpdateView(SuperuserRequiredMixin, UpdateView):
     model = Post
     template_name = 'blog/post_update.html'
     form_class = PostForm
@@ -51,17 +52,19 @@ class PostUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
         obj = Post.objects.get(slug=self.kwargs['slug'])
         return self.request.user.is_superuser or self.request.user.id == obj.user_id
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(SuperuserRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('article-list')
     template_name = 'blog/post_confirm_delete.html'
 
+    # Leaving this in for now, if I update the authentication or allow other users to post
+    # we can simply remove the SuperuserRequiredMixin
     def test_func(self):
         obj = Post.objects.get(slug=self.kwargs['slug'])
         return self.request.user.is_superuser or self.request.user.id == obj.user_id
 
 
-class TagCreateView(LoginRequiredMixin, CreateView):
+class TagCreateView(SuperuserRequiredMixin, CreateView):
     model = Tag
     template_name = 'blog/tag_add.html'
     success_url = reverse_lazy('tag-list')
