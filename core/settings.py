@@ -130,8 +130,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TINYMCE_DEFAULT_CONFIG = {
-    'height': 360,
-    'width': 1120,
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
     'selector': 'textarea',
@@ -153,7 +151,9 @@ TINYMCE_DEFAULT_CONFIG = {
             charmap hr pagebreak nonbreaking anchor |  code |  pre
             ''',
     'contextmenu': 'formats | link image',
-    'menubar': True,
+    'menubar': False,
     'statusbar': True,
+    'width': '100%',
+    'height': 1000,
     # other TinyMCE configuration options
 }
