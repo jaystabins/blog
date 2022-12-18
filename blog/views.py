@@ -17,11 +17,15 @@ class PostFeedView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     ordering = ['-created_at']
+    paginate_by = 4
+    context_object_name = 'post_list'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        paginator = context['paginator']
+        page_obj = context['page_obj']
+        context['page_range'] = paginator.page_range[max(0, page_obj.number-3): page_obj.number+2]
         context['tags'] = Tag.objects.all()
-
         return context
 
     def get_queryset(self):

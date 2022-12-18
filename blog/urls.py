@@ -4,10 +4,10 @@ from django.contrib.auth.decorators import login_required
 from .views import PostView, PostFeedView, PostCreateView, PostUpdateView, PostDeleteView, TagCreateView, TagListiew, LikeView
 
 urlpatterns = [
-    path('articles/', PostFeedView.as_view(), name='article-list'),
-    path('articles/<slug:slug>', PostFeedView.as_view(), name='article-list'),
-    path('article/createarticle', PostCreateView.as_view(), name='article-create'),
+    path('', PostFeedView.as_view(), name='article-list'),
+    path('<slug:slug>', PostFeedView.as_view(), name='article-list'),
     path('article/<slug:slug>', PostView.as_view(), name='article-detail'),
+    path('article/CreateArticle/new', PostCreateView.as_view(), name='article-create'),
     path('article/<slug:slug>/updatearticle', PostUpdateView.as_view(), name='article-update'),
     path('article/<slug:slug>/deletearticle', PostDeleteView.as_view(), name='article-delete'),
     # Tag Management

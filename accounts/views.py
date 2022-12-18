@@ -15,7 +15,7 @@ def login_view(request):
 		login(request, user)
 		if next:
 			return redirect(next)
-		return redirect("/articles/")
+		return redirect("/")
 	return render(request, "accounts/form.html", {
 		"form" : form,
 		"title" : "Login",
@@ -34,7 +34,7 @@ def register_view(request):
 		login(request, new_user)
 		if next:
 			return redirect(next)
-		return redirect("/articles/")
+		return redirect("/")
 	return render(request, "accounts/form.html", {
 		"title" : "Register",
 		"form" : form,
@@ -42,5 +42,5 @@ def register_view(request):
  
 def logout_view(request):
 	logout(request)
-	return HttpResponseRedirect("/articles/")
+	return HttpResponseRedirect("/")
 

@@ -3,43 +3,25 @@
 Blog
 {% endblock title %}
 {% block content %} 
-<div class='container'>
-    <div class="jumbotron">
-    <h1 class="display-4">Hello, world!</h1>
-    <div class=' d-flex justify-content-between'>
-        <p class="lead">Welcome to my blog about programming! As a software developer with over 10 years of experience, I'm excited to share my insights and experiences with the programming community. Whether you're a seasoned pro looking to stay up to date with the latest trends, or a beginner just starting out on your coding journey, I hope you'll find something useful and interesting here. In this blog, I'll be writing about a variety of topics related to programming, from popular languages and frameworks to best practices and career advice. So grab a cup of coffee and join me on this exciting journey through the world of code.</p>
-    </div>
-    <hr class="my-4">
-    </div>
-</div>
-{% if not object_list %}
-<div class='display-5'>I'm sorry, there are no articles to view with this tag, perhaps try a few of these.</div>
-{% for tag in tags %}
-    <span class='badge rounded-pill bg-secondary'><a class='text-decoration-none text-reset' href="{% url 'article-list' tag.slug %}">{{tag}}</a></span>
-{% endfor %}
-{% else %}
-{% endif %}
-{% for post in object_list %}
-    <div class='panel panel-default'>
-        <div class="panel-heading">
-            <a href='{% url "article-detail" post.slug %}'>{{ post.title }}</a> | {{ post.author }} posted {{ post.created_at|timesince }} ago
-        </div>
-        <div class="panel-body">
-        <div>{{ post.body|truncatechars:500|safe }}</div>
-        <div>
-            {% for tag in post.tags.all %}
-            <a href="{% url 'article-list' tag.slug %}">{{tag}}</a>
-            {% endfor %}
-            <div class='float-end'>
-            {% if request.user.is_authenticated and post.author == request.user %}
-            <a href='{% url "article-update" post.slug %}' class='badge rounded-pill bg-secondary text-decoration-none text-reset'>Edit</a>
-            <a  href='{% url "article-delete" post.slug %}'class='badge rounded-pill bg-danger text-decoration-none text-reset'>Delete</a>
-            {% endif %}
-            </div>
-        </div>
-        <hr class="my-1">
-    </div>
 
-{% endfor %}
-</ul>
+    {% for post in object_list %}
+    {% if forloop.counter0|divisibleby:2 %}
+        <div class="row">
+    {% endif %}
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src="{{ post.image }}" alt="{{forloop.counter}}" /></a>
+                    <div class="card-body">
+                        <div class="small text-muted">{{ post.date }}</div>
+                        <h2 class="card-title h4">{{ post.title }}</h2>
+                        <p class="card-text">{{ post.tagline }}</p>
+                        <a class="btn btn-primary notransition" href="{% url 'article-detail' post.slug %}">Read more →</a>
+                    </div>
+                </div>
+            </div>
+    {% if forloop.last or forloop.counter|divisibleby:2 %}
+        </div>
+    {% endif %}
+    {% endfor %}
+
 {% endblock content %}

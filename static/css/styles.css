@@ -1,0 +1,104 @@
+:root {
+    --primary: #0fa396; /* Default primary color */
+    --secondary: #66CB8C; /* Default secondary color */
+    --success: #28a745; /* Default success color */
+    --info: #17a2b8; /* Default info color */
+    --warning: #ffc107; /* Default warning color */
+    --danger: #dc3545; /* Default danger color */
+    --light: #f8f9fa; /* Default light color */
+    --dark: #343a40; /* Default dark color */
+  }
+  .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--primary);
+  }
+  .btn-primary {
+    background-color: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  .btn-primary:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+  }
+  .btn-primary:focus {
+    background-color: var(--info);
+  }
+  .btn-primary:active {
+    background-color:var(--secondary);
+  }
+  .btn-primary:focus:hover{
+    border-color: #17a2b8;
+  }
+  .btn-link {
+    border-color: transparent;
+  }
+  .page-item.active .page-link {
+    background-color: var(--primary);
+  }
+  .page-link:hover {
+    color: var(--secondary);
+  }
+  .page-link{
+    color: var(--primary);
+  }
+  a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+  
+  a:hover{
+    color: var(--secondary);
+  }
+
+  a {
+    color: var(--primary);
+    position: relative;
+    text-decoration: none;
+  }
+  
+  a::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    border-radius: 4px;
+    background-color: var(--secondary);
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .3s ease-in-out;
+  }
+  
+  a:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+  
+  .alert-success {
+    background-color: var(--success);
+    color: #fff;
+  }
+
+  .notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  }
+
+body {
+    font-family: Nunito;
+}
+
+.my-header {
+    background-image: url('../img/header-bg.jpg');
+    background-size: cover;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.sign-in-container {
+    margin-top: 40px;
+}

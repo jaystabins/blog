@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy, reverse
-from ckeditor.fields import RichTextField
+from tinymce import models as tinymce_models
 
 
 
@@ -27,7 +27,9 @@ class Post(models.Model):
     title = models.CharField(max_length=256)
     slug = models.SlugField(max_length=256, null=False, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = RichTextField()
+    body = tinymce_models.HTMLField()
+    tagline = models.CharField(max_length=500, null=True, blank=True)
+    image = models.ImageField(default='../static/img/smokeymtn.jpg')
     tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     likes = models.ManyToManyField(User, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)

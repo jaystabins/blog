@@ -8,4 +8,4 @@ class SuperuserRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
     def handle_no_permission(self):
-        return redirect('login')
+        return redirect('article-list')
