@@ -3,19 +3,19 @@
 Blog
 {% endblock title %}
 {% block content %} 
-
+{% load static %}
     {% for post in object_list %}
     {% if forloop.counter0|divisibleby:2 %}
         <div class="row">
     {% endif %}
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top" src="{{ post.image }}" alt="{{forloop.counter}}" /></a>
+                    <a href="#!"><img class="card-img-top" src="{{ post.image.url }}" alt="{{forloop.counter}}" /></a>
                     <div class="card-body">
                         <div class="small text-muted">{{ post.date }}</div>
                         <h2 class="card-title h4">{{ post.title }}</h2>
                         <p class="card-text">{{ post.tagline }}</p>
-                        <a class="btn btn-primary notransition" href="{% url 'article-detail' post.slug %}">Read more →</a>
+                        <a class="btn btn-primary" href="{% url 'article-detail' post.slug %}">Read more →</a>
                     </div>
                 </div>
             </div>

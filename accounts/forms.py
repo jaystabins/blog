@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from django import forms
+from .models import Profile
 
 class UsersLoginForm(forms.Form):
 	username = forms.CharField()
@@ -87,3 +88,29 @@ class UsersRegisterForm(forms.ModelForm):
 
 		return super(UsersRegisterForm, self).clean(*args, **keyargs)
  
+
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'profile_pic', 'website_url', 'github_url']
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            'website_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'github_url': forms.URLInput(attrs={'class': 'form-control'}),
+        }
+        website_url = forms.CharField(required=False)
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+		
