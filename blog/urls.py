@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from .views import PostView, PostFeedView, PostCreateView, PostUpdateView, PostDeleteView, TagCreateView, TagListiew, LikeView
+from .views import PostView, PostFeedView, PostCreateView, PostUpdateView, PostDeleteView, TagCreateView, TagListiew, LikeView, upload_image
 
 urlpatterns = [
     path('', PostFeedView.as_view(), name='article-list'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('tags/createtag', TagCreateView.as_view(), name='tag-create'),
     # Like Post
     path('like/<slug:slug>', LikeView, name='article-like'),
+    path('images/upload_image', upload_image),
 ]

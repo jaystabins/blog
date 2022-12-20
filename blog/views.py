@@ -8,6 +8,12 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from core.mixins import SuperuserRequiredMixin
 
+# TinyMCE Image Uplaod Imports
+from django.http import JsonResponse
+from django.contrib.auth.decorators import user_passes_test
+from .models import PostImage
+
+
 class PostView(DetailView):
     model = Post
     template_name = 'blog/post.html'
@@ -33,6 +39,7 @@ class PostFeedView(ListView):
         tag_slug = self.kwargs.get('slug')
         if tag_slug:
             queryset = queryset.filter(tags__slug=tag_slug)
+        queryset = queryset.filter(is_published=True)
 
         return queryset
 
@@ -92,3 +99,25 @@ def LikeView(request, slug):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return HttpResponseRedirect(reverse('article-list'))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def upload_image(request):
+    if request.method == "POST":
+        file_obj = request.FILES['file']
+        file_name_suffix = file_obj.name.split(".")[-1]
+        if file_name_suffix not in ["jpg", "png", "gif", "jpeg", ]:
+            return JsonResponse({"message": "Wrong file format"})
+
+        try:
+            img = PostImage(image=file_obj)
+            img.save()
+        except:
+            return JsonResponse({'message': 'Problem Saving The Image'})
+
+        return JsonResponse({
+            'message': 'Image uploaded successfully',
+            # 'location': file_url
+            'location': img.image.url
+        })
+    return JsonResponse({'detail': "Wrong request"})

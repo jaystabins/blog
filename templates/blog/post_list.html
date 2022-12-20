@@ -4,24 +4,52 @@ Blog
 {% endblock title %}
 {% block content %} 
 {% load static %}
-    {% for post in object_list %}
-    {% if forloop.counter0|divisibleby:2 %}
-        <div class="row">
-    {% endif %}
-            <div class="col-lg-6">
-                <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top" src="{{ post.image.url }}" alt="{{forloop.counter}}" /></a>
-                    <div class="card-body">
-                        <div class="small text-muted">{{ post.date }}</div>
-                        <h2 class="card-title h4">{{ post.title }}</h2>
-                        <p class="card-text">{{ post.tagline }}</p>
-                        <a class="btn btn-primary" href="{% url 'article-detail' post.slug %}">Read more →</a>
-                    </div>
-                </div>
+
+<div class="row">
+<!-- Blog entries-->
+    <div class="col-lg-8">
+        <!-- Nested row for non-featured blog posts-->
+        <div class='row'>
+            {% if not object_list %}
+            <!-- No Posts show available tags -->
+            <div class="col-lg-8 mx-auto">
+                <h2>No tags matching your search - perhaps try some of these.</h2>
+                <ul>
+                {% for tag in tags %}
+                    <li><a href="{% url 'article-list' tag.slug %}">{{ tag.name }}</a></li>
+                {% endfor %}
+                </ul>
             </div>
-    {% if forloop.last or forloop.counter|divisibleby:2 %}
+            {% else %}
+            {% for post in object_list %}
+                {% if forloop.counter0|divisibleby:2 %}
+                <div class="row">
+                {% endif %}
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="{{ post.image.url }}" alt="{{forloop.counter}}" /></a>
+                            <div class="card-body">
+                                <div class="small text-muted">{{ post.date }}</div>
+                                <h2 class="card-title h4">{{ post.title }}</h2>
+                                <p class="card-text">{{ post.tagline }}</p>
+                                <a class="btn btn-primary" href="{% url 'article-detail' post.slug %}">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+                {% if forloop.last or forloop.counter|divisibleby:2 %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
-    {% endif %}
-    {% endfor %}
+        <!-- Pagination-->
+        {% if is_paginated %}
+        {% include "components/pagination.html" %}
+        {% endif %}
+    </div>
+    <!-- Side widgets-->
+    {% include "components/sidebar.html" %}
+</div>
+
 
 {% endblock content %}

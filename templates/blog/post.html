@@ -2,26 +2,26 @@
 {% block title %}{{ post.title }}{% endblock title %}
 
 {% block content %} 
-    <h1>{{ post.title }}</h1>
-    <div class='content'>{{ post.body|safe }}</div>
-        <div class='float-end'>
-        {% if request.user.is_authenticated and post.author == request.user %}
-        <a href='{% url "article-update" post.slug %}' class='btn btn-secondary btn-sm'>Edit</a>
-        <a  href='{% url "article-delete" post.slug %}'class='btn btn-danger btn-sm float-end'>Delete</a>
-        {% endif %}
-        </div>
-        <div>
-            
-            <form action='{% url "article-like" post.slug %}' method='post'>
-            {{ post.author|title }} posted {{ post.created_at|timesince }} ago 
-                {% csrf_token %}
-                <button type='submit' class='btn'>
-                    {% if request.user in post.likes.all %}
-                        <i class="fa-solid fa-thumbs-up fa-2xl text-success">
-                    {% else %}
-                        <i class="fa-regular fa-thumbs-up fa-2xl">
-                    {% endif %}</i>{% if post.like_count %}<span class='badge rounded-pill bg-secondary'>{{post.like_count}}</span>{% endif %}
-                </button>
-            </form>
-        </div>
+{% load static %}
+<h1>{{ post.title }}</h1>
+<div class='content'>{{ post.body|safe }}</div>
+<div class='float-end'>
+{% if request.user.is_authenticated and post.author == request.user %}
+<a href='{% url "article-update" post.slug %}' class='btn btn-secondary btn-sm'>Edit</a>
+<a  href='{% url "article-delete" post.slug %}'class='btn btn-danger btn-sm float-end'>Delete</a>
+{% endif %}
+</div>
+<div>
+    <form action='{% url "article-like" post.slug %}' method='post'>
+    {{ post.author|title }} posted {{ post.created_at|timesince }} ago 
+        {% csrf_token %}
+        <button type='submit' class='btn'>
+            {% if request.user in post.likes.all %}
+                <i class="fa-solid fa-thumbs-up fa-2xl text-success">
+            {% else %}
+                <i class="fa-regular fa-thumbs-up fa-2xl">
+            {% endif %}</i>{% if post.like_count %}<span class='badge rounded-pill bg-secondary'>{{post.like_count}}</span>{% endif %}
+        </button>
+    </form>
+</div>
 {% endblock content %}

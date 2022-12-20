@@ -51,3 +51,11 @@ class Post(models.Model):
         return self.likes.count()
 
 
+class PostImage(models.Model):
+    image = models.ImageField()
+    # post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    
+    def __str__(self):
+        return f'{self.created_at}'
