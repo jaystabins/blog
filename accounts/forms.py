@@ -89,8 +89,6 @@ class UsersRegisterForm(forms.ModelForm):
 		return super(UsersRegisterForm, self).clean(*args, **keyargs)
  
 
-
-
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

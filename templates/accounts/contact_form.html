@@ -1,0 +1,53 @@
+{% extends 'base.html' %} 
+{% block title %}
+Reach out and say hello!
+{% endblock title %}
+{% block content %} 
+<div class="row">
+<!-- Contact Form-->
+    <div class="col-lg-8">
+        <!-- row for form and sidebar-->
+        <div class='row'>
+            <div class='col-lg-8 mx-auto'>
+                <h1>Reach out and say hello!</h1>
+                <div class="container py-4">
+                    <form id="contactForm" method='post' action="{% url 'contact-form' %}">
+                        {% if success %}
+                            <div class="bg-success text-white p-3 text-center">
+                                <i class="fas fa-paper-plane"></i>
+                                Your message was sent successfully!
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" id="name" type="text" placeholder="Name" name='name' required/>
+                        </div>
+                        <div>{% if errors.name %}<p class="error">{{ errors.name }}</p>{% endif %}</div>
+
+                        <div class="mb-3">
+                        <label class="form-label" for="emailAddress">Email Address</label>
+                        <input class="form-control" id="emailAddress" type="email" placeholder="Email Address" name='email' required/>
+                        </div>
+                        <div>{% if errors.email %}<p class="error">{{ errors.email }}</p>{% endif %}</div>
+
+                        <div class="mb-3">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea class="form-control" id="message" type="text" placeholder="Message" style="height: 10rem;" name='message' required></textarea>
+                        </div>
+                        <div>{% if errors.message %}<p class="error">{{ errors.message }}</p>{% endif %}</div>
+
+
+                        <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Side widgets-->
+    {% include "components/sidebar.html" %}
+</div>
+{% endblock content %}

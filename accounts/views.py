@@ -9,6 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from django.core.mail import send_mail
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.conf import settings
 
 def login_view(request):
 	form = UsersLoginForm(request.POST or None)
@@ -83,3 +88,30 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'accounts/password_change.html', {'form': form})
+
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        try:
+            validate_email(email)
+        except ValidationError:
+            print('validation error')
+            return render(request, 'accounts/contact_form.html', {'error': 'Invalid email address'})
+
+        send_mail(
+            'Message from Contact Form on Blog',
+            message,
+            email,
+            [settings.DEFAULT_FROM_EMAIL],
+            fail_silently=False,
+        )
+        messages.success(request, 'Your message was sent successfully!')
+        return render(request, 'accounts/contact_form.html', {'success': True})
+
+    return render(request, 'accounts/contact_form.html')
+
+def contact_success(request):
+    return render(request, 'accounts/contact_success.html')

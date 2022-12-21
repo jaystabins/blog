@@ -12,7 +12,9 @@ from core.mixins import SuperuserRequiredMixin
 from django.http import JsonResponse
 from django.contrib.auth.decorators import user_passes_test
 from .models import PostImage
-
+from PIL import Image
+import io
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class PostView(DetailView):
     model = Post
@@ -109,10 +111,18 @@ def upload_image(request):
         if file_name_suffix not in ["jpg", "png", "gif", "jpeg", ]:
             return JsonResponse({"message": "Wrong file format"})
 
+        image = Image.open(io.BytesIO(file_obj.read()))
+
+        image.thumbnail((500,500))
+
+        resized_image = io.BytesIO()
+        image.save(resized_image, format=image.format)
+
+        django_file = InMemoryUploadedFile(resized_image, None, file_obj.name, file_obj.content_type, resized_image.tell, None)
         try:
-            img = PostImage(image=file_obj)
+            img = PostImage(image=django_file)
             img.save()
-        except:
+        except Exception:
             return JsonResponse({'message': 'Problem Saving The Image'})
 
         return JsonResponse({
@@ -121,3 +131,4 @@ def upload_image(request):
             'location': img.image.url
         })
     return JsonResponse({'detail': "Wrong request"})
+
