@@ -105,3 +105,18 @@ pre {
     margin-top: 40px;
     margin-bottom: 40px;
 }
+
+.post-footer, .comments {
+  padding: 20px 0;
+}
+
+.media {
+  display: flex;
+}
+
+.mr-3 img {
+  margin-right: 1.2em;
+}
+.card {
+  padding-bottom: 1.2em;
+}

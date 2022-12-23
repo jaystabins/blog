@@ -12,6 +12,7 @@ env = environ.Env(
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR_PUBLIC = BASE_DIR.parent / "public"
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -31,8 +32,12 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Comments
+    'django_comments_xtd',
+    'django_comments',
     'blog',
     'accounts',
     'tinymce',
@@ -51,6 +56,20 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+COMMENTS_APP = 'django_comments_xtd'
+
+#  To help obfuscating comments before they are sent for confirmation.
+COMMENTS_XTD_SALT = (b"Timendi causa est nescire. "
+                     b"Aequam memento rebus in arduis servare mentem.")
+
+# Source mail address used for notifications.
+COMMENTS_XTD_FROM_EMAIL = "webmaster@example.com"
+
+# Contact mail address to show in messages.
+COMMENTS_XTD_CONTACT_EMAIL = "helpdesk@example.com"
+
+COMMENTS_XTD_MAX_THREAD_LEVEL = 5
 
 TEMPLATES = [
     {
@@ -105,6 +124,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+SITE_ID = 1
 
 STATIC_URL = "/static/"
 
@@ -178,8 +199,10 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
+USE_AWS = False
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"  # boto3
+if USE_AWS:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"  # boto3
 
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")

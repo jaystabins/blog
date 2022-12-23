@@ -1,4 +1,22 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Tag
 
-admin.site.register(Post)
+
+class PostAdmin(admin.ModelAdmin):
+    fields = ('title', 'tagline', 'body', 'image', 'tags', 'is_published', 'author')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'author':
+            if request.path.endswith('add/'):
+                kwargs['initial'] = request.user.pk
+            kwargs['disabled'] = True
+            return db_field.formfield(**kwargs)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class TagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+admin.site.register(Post, PostAdmin)
+admin.site.register(Tag, TagAdmin)
+

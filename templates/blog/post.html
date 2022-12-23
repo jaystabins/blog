@@ -1,5 +1,7 @@
 {% extends 'base.html' %} 
 {% block title %}{{ post.title }}{% endblock title %}
+{% load comments %}
+{% load comments_xtd %}
 
 {% block content %} 
 {% load static %}
@@ -24,4 +26,51 @@
         </button>
     </form>
 </div>
-{% endblock content %}
+
+{% get_comment_count for post as comment_count %}
+<div class="py-4 text-center">
+  <a href="{% url 'article-list' %}">Back to the post list</a>
+  &nbsp;&sdot;&nbsp;
+  {{ comment_count }} comment{{ comment_count|pluralize }}
+  ha{{ comment_count|pluralize:"s,ve"}} been posted.
+</div>
+
+{% if object.allow_comments %}
+<div class='col-8 mx-auto'>
+    <a href='' id='comment_form_showhide'><h4 class="text-center mb-4">Join the Discussion</h4></a>
+
+    <div class="comment mt-3 mb-5" id='comment_form' style='display:none'>
+    <h4 class="text-center mb-4">Your comment</h4>
+    <div class="card pt-4">
+        {% render_comment_form for post %}
+    </div>
+    </div>
+    {% endif %}
+
+    {% if comment_count %}
+    <ul class="media-list">
+    {% render_xtdcomment_tree for post %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+const linkElement = document.querySelector('#comment_form_showhide');
+
+linkElement.addEventListener('click', function() {
+    event.preventDefault();
+  toggleVisibility('comment_form');
+});
+
+function toggleVisibility(elementId) {
+  const element = document.getElementById(elementId);
+  if (element.style.display === "none") {
+    element.style.display = "block";
+  } else {
+    element.style.display = "none";
+  }
+}
+
+{% endblock scripts %}

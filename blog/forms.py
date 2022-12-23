@@ -19,3 +19,12 @@ class PostForm(forms.ModelForm):
             queryset=Tag.objects.all(),
             widget=forms.CheckboxSelectMultiple(),
         )
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ('name',)
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control'}),
+        }

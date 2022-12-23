@@ -8,6 +8,7 @@ urlpatterns = [
     path('contact', contact, name='contact-form'),
     path('admin/dashboard/', admin.site.urls),
     path('', include('blog.urls')),
+    path(r'comments/', include('django_comments_xtd.urls')),
     path('accounts/', include("accounts.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
