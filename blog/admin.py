@@ -12,7 +12,9 @@ class PostAdmin(admin.ModelAdmin):
             kwargs['disabled'] = True
             return db_field.formfield(**kwargs)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
+        
+    list_display = ('title', 'is_published')
+    list_filter = ('is_published',)
 
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}

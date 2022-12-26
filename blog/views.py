@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Tag
 from .forms import PostForm
@@ -7,6 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from core.mixins import SuperuserRequiredMixin
+from django.db.models import Q
 
 # TinyMCE Image Uplaod Imports
 from django.http import JsonResponse
@@ -25,7 +26,7 @@ class PostFeedView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     ordering = ['-created_at']
-    paginate_by = 4
+    paginate_by = 200
     context_object_name = 'post_list'
 
     def get_context_data(self, **kwargs):
@@ -45,7 +46,7 @@ class PostFeedView(ListView):
 
         return queryset
 
-class PostCreateView(SuperuserRequiredMixin, LoginRequiredMixin, CreateView):
+class PostCreateView(SuperuserRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_add.html'
     form_class = PostForm
@@ -69,12 +70,6 @@ class PostDeleteView(SuperuserRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('article-list')
     template_name = 'blog/post_confirm_delete.html'
-
-    # Leaving this in for now, if I update the authentication or allow other users to post
-    # we can simply remove the SuperuserRequiredMixin
-    def test_func(self):
-        obj = Post.objects.get(slug=self.kwargs['slug'])
-        return self.request.user.is_superuser or self.request.user.id == obj.user_id
 
 
 class TagCreateView(SuperuserRequiredMixin, CreateView):
@@ -132,3 +127,16 @@ def upload_image(request):
         })
     return JsonResponse({'detail': "Wrong request"})
 
+def search(request):
+    query = request.POST.get('q')
+    tags = Tag.objects.all()
+    if query:
+        object_list = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(tagline__icontains=query) |
+            Q(body__icontains=query) |
+            Q(tags__name__icontains=query)
+        )
+    else:
+        object_list = None
+    return render(request, 'blog/post_list.html', {'object_list': object_list, 'tags': tags})

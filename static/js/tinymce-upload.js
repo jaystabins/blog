@@ -6,7 +6,7 @@ function tinymce_image_upload_handler (blobInfo, success, failure, progress) {
     xhr.setRequestHeader('X-CSRFToken', Cookies.get("csrftoken"));
     xhr.upload.onprogress = function (e) {
         progress(e.loaded / e.total * 100);
-    console.log(Cookies.get("csrftoken"));
+    // console.log(Cookies.get("csrftoken"));
     };
     xhr.onload = function() {
         let json;

@@ -120,3 +120,6 @@ pre {
 .card {
   padding-bottom: 1.2em;
 }
+.mr-3 img:first-of-type {
+  border-radius: 50%;
+}
