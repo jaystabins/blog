@@ -8,7 +8,7 @@ from tinymce import models as tinymce_models
 
 class Tag(models.Model):
     name = models.CharField(max_length=256, blank=False, null=False)
-    slug = models.SlugField(max_length=256, null=False, unique=True)
+    slug = models.SlugField(max_length=255, null=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=256)
-    slug = models.SlugField(max_length=256, null=False, unique=True)
+    slug = models.SlugField(max_length=255, null=False, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = tinymce_models.HTMLField()
     tagline = models.CharField(max_length=500, null=True, blank=True)
@@ -53,7 +53,7 @@ class Post(models.Model):
 
 
 class PostImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to='articles/content/')
     # post = models.ForeignKey(Post, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

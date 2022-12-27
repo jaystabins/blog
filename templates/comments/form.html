@@ -34,7 +34,7 @@
         {% if not request.user.is_authenticated or not request.user.email %}
         <div class="row form-group {% if 'email' in form.errors %}has-danger{% endif %}">
             <label for="id_email" class="col-form-label col-md-3 text-end">
-                {{ form.email.label }}
+                E-{{ form.email.label }}
             </label>
             <div class="col-md-7">
                 {{ form.email }}

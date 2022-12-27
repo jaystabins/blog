@@ -30,7 +30,7 @@ def login_view(request):
 		"title" : "Login",
 	})
 
-
+@login_required
 def register_view(request):
 	form = UsersRegisterForm(request.POST or None)
 	if form.is_valid():

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'tinymce',
     # django-storages for AWS S3
-    "storages",
+    # "storages",
 ]
 
 MIDDLEWARE = [
@@ -64,10 +64,10 @@ COMMENTS_XTD_SALT = (b"Timendi causa est nescire. "
                      b"Aequam memento rebus in arduis servare mentem.")
 
 # Source mail address used for notifications.
-COMMENTS_XTD_FROM_EMAIL = "webmaster@example.com"
+COMMENTS_XTD_FROM_EMAIL = env("COMMENTS_XTD_FROM_EMAIL")
 
 # Contact mail address to show in messages.
-COMMENTS_XTD_CONTACT_EMAIL = "helpdesk@example.com"
+COMMENTS_XTD_CONTACT_EMAIL = env("COMMENTS_XTD_CONTACT_EMAIL")
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
 
@@ -128,16 +128,18 @@ USE_TZ = True
 SITE_ID = 1
 
 STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-MEDIA_ROOT = BASE_DIR / "media"
-
-MEDIA_URL = "/media/"
+if DEBUG:
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MEDIA_ROOT = BASE_DIR / "media"
+else:
+    STATIC_ROOT = BASE_DIR_PUBLIC / "static"
+    MEDIA_ROOT = BASE_DIR_PUBLIC / "media"   
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -156,7 +158,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': '''
             fullscreen preview bold italic underline | fontselect,
             fontsizeselect  | forecolor backcolor | alignleft alignright |
-            aligncenter alignjustify | indent outdent 
+            aligncenter alignjustify | indent outdent | formatselect
             ''',
     'toolbar2': '''
             visualblocks visualchars |
