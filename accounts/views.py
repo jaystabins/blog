@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UsersLoginForm, UsersRegisterForm, UserForm, ProfileForm
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Profile
+from blog.models import Tag
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -91,6 +92,8 @@ def change_password(request):
 
 
 def contact(request):
+    tags = Tag.objects.all()
+
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -103,15 +106,15 @@ def contact(request):
 
         send_mail(
             'Message from Contact Form on Blog',
-            message,
-            email,
+            'The following email sent you a message on your blog: [' + email + '] \n' + message,
+            settings.EMAIL_HOST_USER,
             [settings.DEFAULT_FROM_EMAIL],
             fail_silently=False,
         )
         messages.success(request, 'Your message was sent successfully!')
-        return render(request, 'accounts/contact_form.html', {'success': True})
+        return render(request, 'accounts/contact_form.html', {'success': True, 'tags': tags})
 
-    return render(request, 'accounts/contact_form.html')
+    return render(request, 'accounts/contact_form.html', {'tags':tags})
 
 def contact_success(request):
     return render(request, 'accounts/contact_success.html')
