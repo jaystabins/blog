@@ -1,7 +1,7 @@
-<div class="col-lg-4">
+<div class="col-lg-3">
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">Search</div>
+        {% comment %} <div class="card-header">Search</div> {% endcomment %}
         <div class="card-body">
             <form action='{% url "search-post" %}' method='POST'>
             {% csrf_token %}
@@ -40,11 +40,11 @@
     </div>
     <!-- Side widget-->
     <div class="card mb-4">
-        <div class="card-header">Hey there!</div>
+        {% comment %} <div class="card-header">Hey there!</div> {% endcomment %}
         <div class="card-body">
             My name is Jay and I am a programmer with a passion for learning and sharing my knowledge with others. <br><br>
-            Here you will find some notes and some articles disguised as a blog, I hope you find something helpful.<br><br>  
-            Thank you for stopping by!
+            Here you will find some notes and some articles disguised as a blog, I hope you find something useful.<br><br>  
+            Thank you for stopping by
         </div>
     </div>
 </div>
