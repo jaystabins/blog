@@ -92,8 +92,6 @@ def change_password(request):
 
 
 def contact(request):
-    tags = Tag.objects.all()
-
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -106,15 +104,16 @@ def contact(request):
 
         send_mail(
             'Message from Contact Form on Blog',
-            'The following email sent you a message on your blog: [' + email + '] \n' + message,
+            name +'The following email sent you a message on your blog: [' + email + '] \n' + message,
             settings.EMAIL_HOST_USER,
             [settings.DEFAULT_FROM_EMAIL],
             fail_silently=False,
         )
-        messages.success(request, 'Your message was sent successfully!')
-        return render(request, 'accounts/contact_form.html', {'success': True, 'tags': tags})
+        response = HttpResponse()
+        response['HX-Trigger'] = 'close_modal'
+        return response
 
-    return render(request, 'accounts/contact_form.html', {'tags':tags})
+    return render(request, 'accounts/contact_form.html')
 
 def contact_success(request):
     return render(request, 'accounts/contact_success.html')
