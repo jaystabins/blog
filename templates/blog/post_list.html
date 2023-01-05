@@ -6,10 +6,16 @@ Blog
 {% load static %}
 
 <div class="row">
+    <div class='container mx-s-5'>
+        <div class='col-sm-9 mx-auto mt-5'>
+            <i class="fa-solid fa-hand-peace"></i>  My name is Jay and I am a programmer. <br>I like making stuff for the web. Here you will find some notes that you may also find helpful as well as some articles disguised as a blog. I hope you find something useful or beneficial here. Thanks for stopping by.
+            <hr class='mx-3'>
+        </div>
+    </div>
 <!-- Blog entries-->
-    <div class="col-lg-9">
-        <!-- Nested row for non-featured blog posts-->
-        <div class='row'>
+    <div class="col-sm-8 mx-auto">
+        {% comment %} <!-- Nested row for non-featured blog posts-->
+        <div class='row'> {% endcomment %}
             {% if not object_list %}
             <!-- No Posts show available tags -->
             <div class="col-lg-8 mx-auto">
@@ -47,10 +53,9 @@ Blog
         {% if is_paginated %}
         {% include "components/pagination.html" %}
         {% endif %}
-    </div>
+    {% comment %} </div>
     <!-- Side widgets-->
-    {% include "components/sidebar.html" %}
+    {% include "components/sidebar.html" %} {% endcomment %}
 </div>
-
 
 {% endblock content %}

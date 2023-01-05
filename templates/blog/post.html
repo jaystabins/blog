@@ -8,8 +8,8 @@
 <div class='col-8 mx-auto'>
     <h1>{{ post.title }}</h1>
     <hr>
-    <h3>{{ post.tagline }}</h3>
-    <div class='content'>{{ post.body|safe }}</div>
+    <h5>{{ post.tagline }}</h5>
+    <div class='content mt-4'>{{ post.body|safe }}</div>
     <div class='float-end'>
     {% if request.user.is_authenticated and post.author == request.user %}
     <a href='{% url "article-update" post.slug %}' class='btn btn-secondary btn-sm'>Edit</a>
@@ -49,7 +49,7 @@
 
     <div class="comment mt-3 mb-5" id='comment_form' style='display:none'>
     <h4 class="text-center mb-4">Your comment</h4>
-    <div class="card pt-4">
+    <div class="card" pt-2 style='border: none;'>
         {% render_comment_form for post %}
     </div>
     </div>
