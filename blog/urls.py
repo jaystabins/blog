@@ -1,13 +1,14 @@
 from django.urls import path
-from .views import PostView, PostFeedView, TagListiew,  upload_image, search
+
+from .views import PostFeedView, PostView, TagListiew, search, upload_image
 
 urlpatterns = [
-    path('', PostFeedView.as_view(), name='article-list'),
-    path('<slug:slug>', PostFeedView.as_view(), name='article-list'),
-    path('article/<slug:slug>', PostView.as_view(), name='article-detail'),
+    path("", PostFeedView.as_view(), name="article-list"),
+    path("<slug:slug>", PostFeedView.as_view(), name="article-list"),
+    path("article/<slug:slug>", PostView.as_view(), name="article-detail"),
     # Tag Management
-    path('tags', TagListiew.as_view(), name='tag-list'),
+    path("tags", TagListiew.as_view(), name="tag-list"),
     # Like Post
-    path('images/upload_image', upload_image),
-    path('search/', search, name='search-post'),
+    path("images/upload_image", upload_image),
+    path("search/", search, name="search-post"),
 ]

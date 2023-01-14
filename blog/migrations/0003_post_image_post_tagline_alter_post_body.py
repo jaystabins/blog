@@ -7,23 +7,25 @@ import tinymce.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0002_post_likes'),
+        ("blog", "0002_post_likes"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='image',
-            field=models.ImageField(default='../static/img/smokeymtn.jpg', upload_to=''),
+            model_name="post",
+            name="image",
+            field=models.ImageField(
+                default="../static/img/smokeymtn.jpg", upload_to=""
+            ),
         ),
         migrations.AddField(
-            model_name='post',
-            name='tagline',
+            model_name="post",
+            name="tagline",
             field=models.CharField(blank=True, max_length=500, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='body',
+            model_name="post",
+            name="body",
             field=tinymce.models.HTMLField(),
         ),
     ]

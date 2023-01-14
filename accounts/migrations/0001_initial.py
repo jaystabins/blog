@@ -15,14 +15,39 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bio', models.TextField()),
-                ('profile_pic', models.ImageField(default='media/profile_pics/default.png', upload_to='media/profile_pics/')),
-                ('website_url', models.CharField(blank=True, max_length=256, null=True)),
-                ('github_url', models.CharField(blank=True, max_length=256, null=True)),
-                ('user', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bio", models.TextField()),
+                (
+                    "profile_pic",
+                    models.ImageField(
+                        default="media/profile_pics/default.png",
+                        upload_to="media/profile_pics/",
+                    ),
+                ),
+                (
+                    "website_url",
+                    models.CharField(blank=True, max_length=256, null=True),
+                ),
+                ("github_url", models.CharField(blank=True, max_length=256, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

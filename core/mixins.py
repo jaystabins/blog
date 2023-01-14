@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
+
 class SuperuserRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
@@ -8,4 +9,4 @@ class SuperuserRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
     def handle_no_permission(self):
-        return redirect('article-list')
+        return redirect("article-list")

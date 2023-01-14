@@ -1,8 +1,9 @@
-from django.test import TestCase
-from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import User
-from .models import Tag, Post
+from django.test import TestCase
+from django.urls import reverse, reverse_lazy
 from faker import Faker
+
+from .models import Post, Tag
 
 
 class ObjectHelpers:
@@ -14,36 +15,35 @@ class ObjectHelpers:
 
     def create_super_user(self):
         self.superuser = User.objects.create_superuser(
-            username = self.faker.name(),
-            email=self.faker.email(), 
-            password=self.faker.password()
+            username=self.faker.name(),
+            email=self.faker.email(),
+            password=self.faker.password(),
         )
         self.objects.append(self.superuser)
         return self.superuser
 
     def create_regular_user(self):
         regular_user = User.objects.create_user(
-            username =self.faker.name(),
-            email=self.faker.email(), 
-            password=self.faker.password()
+            username=self.faker.name(),
+            email=self.faker.email(),
+            password=self.faker.password(),
         )
         self.objects.append(regular_user)
         return regular_user
-        
+
     def create_tag(self):
         tag = Tag.objects.create(name=self.faker.paragraph(nb_sentences=1))
         self.objects.append(tag)
         return tag
 
-    
     def create_post(self, author=None):
         if not author:
             author = self.create_regular_user()
 
         post = Post.objects.create(
             title=self.faker.paragraph(nb_sentences=1),
-            author = author,
-            body = self.faker.paragraph(nb_sentences=6),
+            author=author,
+            body=self.faker.paragraph(nb_sentences=6),
         )
 
         tags = [self.create_tag() for _ in range(3)]
@@ -52,7 +52,7 @@ class ObjectHelpers:
         self.objects.append(post)
         return post
 
-        
+
 class ObjectHelpersTestCase(TestCase):
     def setUp(self):
         self.helpers = ObjectHelpers()
@@ -95,6 +95,7 @@ class ObjectHelpersTestCase(TestCase):
         # Verify that the tags were assigned to the post
         self.assertEqual(post.tags.count(), 3)
 
+
 class PostTestCase(TestCase):
     def setUp(self):
         self.helpers = ObjectHelpers()
@@ -122,7 +123,7 @@ class PostTestCase(TestCase):
         post = Post.objects.create(
             title=self.helpers.faker.paragraph(nb_sentences=1),
             author=self.helpers.create_regular_user(),
-            body=self.helpers.faker.paragraph(nb_sentences=6)
+            body=self.helpers.faker.paragraph(nb_sentences=6),
         )
 
         # Verify that the save method generated a slug
@@ -147,6 +148,7 @@ class PostTestCase(TestCase):
     def tearDown(self):
         for obj in self.helpers.objects:
             obj.delete()
+
 
 class TagTestCase(TestCase):
     def setUp(self):

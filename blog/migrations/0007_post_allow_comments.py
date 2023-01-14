@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0006_postimage'),
+        ("blog", "0006_postimage"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='allow_comments',
-            field=models.BooleanField(default=True, verbose_name='allow comments'),
+            model_name="post",
+            name="allow_comments",
+            field=models.BooleanField(default=True, verbose_name="allow comments"),
         ),
     ]

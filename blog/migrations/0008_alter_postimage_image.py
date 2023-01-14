@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0007_post_allow_comments'),
+        ("blog", "0007_post_allow_comments"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='postimage',
-            name='image',
-            field=models.ImageField(upload_to='articles/content/'),
+            model_name="postimage",
+            name="image",
+            field=models.ImageField(upload_to="articles/content/"),
         ),
     ]
