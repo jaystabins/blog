@@ -11,29 +11,10 @@
     <h5>{{ post.tagline }}</h5>
     <div class='content mt-4'>{{ post.body|safe }}</div>
     <div class='float-end'>
-    {% if request.user.is_authenticated and post.author == request.user %}
-    <a href='{% url "article-update" post.slug %}' class='btn btn-secondary btn-sm'>Edit</a>
-    <a  href='{% url "article-delete" post.slug %}'class='btn btn-danger btn-sm float-end'>Delete</a>
-    {% endif %}
     </div>
     <div>
         {{ post.author|title }} posted {{ post.created_at|timesince }} ago 
     </div>
-    {% comment %} 
-    <div>
-        <form action='{% url "article-like" post.slug %}' method='post'>
-        {{ post.author|title }} posted {{ post.created_at|timesince }} ago 
-            {% csrf_token %}
-            <button type='submit' class='btn'>
-                {% if request.user in post.likes.all %}
-                    <i class="fa-solid fa-thumbs-up fa-2xl text-success">
-                {% else %}
-                    <i class="fa-regular fa-thumbs-up fa-2xl">
-                {% endif %}</i>{% if post.like_count %}<span class='badge rounded-pill bg-secondary'>{{post.like_count}}</span>{% endif %}
-            </button>
-        </form>
-    </div> 
-    {% endcomment %}
 </div>
 {% get_comment_count for post as comment_count %}
 <div class="py-4 text-center">
@@ -45,7 +26,9 @@
 
 {% if object.allow_comments %}
 <div class='col-8 mx-auto'>
-    <a href='' id='comment_form_showhide'><h4 class="text-center mb-4">Join the Discussion</h4></a>
+    <h4 class="text-center mb-4">
+      <a href='' id='comment_form_showhide'>Join the Discussion</a>
+    </h4>
 
     <div class="comment mt-3 mb-5" id='comment_form' style='display:none'>
     <h4 class="text-center mb-4">Your comment</h4>
@@ -55,6 +38,7 @@
     </div>
     {% endif %}
 
+    <section class="visually-hidden" id="scroll-bottom"></section>
     {% if comment_count %}
     <ul class="media-list">
     {% render_xtdcomment_tree for post %}
@@ -64,12 +48,14 @@
 {% endblock %}
 
 {% block scripts %}
-
+<script>
 const linkElement = document.querySelector('#comment_form_showhide');
 
 linkElement.addEventListener('click', function() {
     event.preventDefault();
   toggleVisibility('comment_form');
+  var elmntToView = document.getElementById("scroll-bottom");
+elmntToView.scrollIntoView(); 
 });
 
 function toggleVisibility(elementId) {
@@ -80,5 +66,5 @@ function toggleVisibility(elementId) {
     element.style.display = "none";
   }
 }
-
+</script>
 {% endblock scripts %}

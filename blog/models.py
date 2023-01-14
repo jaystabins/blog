@@ -33,7 +33,6 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     is_published = models.BooleanField(default=False)
     allow_comments = models.BooleanField('allow comments', default=True)
-    likes = models.ManyToManyField(User, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -47,10 +46,6 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
-
-    def like_count(self):
-        return self.likes.count()
-
 
 class PostImage(models.Model):
     image = models.ImageField(upload_to='articles/content/')

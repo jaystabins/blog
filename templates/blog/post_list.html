@@ -8,7 +8,7 @@ Blog
 <div class="row">
     <div class='container mx-s-5'>
         <div class='col-sm-9 mx-auto mt-5'>
-            <i class="fa-solid fa-hand-peace"></i>  My name is Jay and I am a programmer. <br>I like making stuff for the web. Here you will find some notes that you may also find helpful as well as some articles disguised as a blog. I hope you find something useful or beneficial here. Thanks for stopping by.
+            <span class="h4 text-light"> <i class="fa-solid fa-hand-peace fa-2xl"></i>  My name is Jay and I am a programmer.</span> <br>I like making stuff for the web. Here you will find some notes that you may also find helpful as well as some articles disguised as a blog. I hope you find something useful or beneficial here. Thanks for stopping by.
             <hr class='mx-3'>
         </div>
     </div>
@@ -29,33 +29,40 @@ Blog
             </div>
             {% else %}
             {% for post in object_list %}
-                {% if forloop.counter0|divisibleby:2 %}
-                <div class="row">
-                {% endif %}
-                    <div class="col-lg-6">
-                        <div class="card mb-4">
-                            <a href="{% url 'article-detail' post.slug %}"><img class="card-img-top" src="{{ post.image.url }}" alt="{{forloop.counter}}" /></a>
+                <div class="card mb-3" style="">
+                    <div class="row no-gutters">
+                        {% if forloop.counter|divisibleby:2 %}
+                        <div class="col-md-5">
+                            <a href="{% url 'article-detail' post.slug %}">
+                                <img src="{{ post.image.url }}" class="card-img" style="text-decoration: none;" alt="post_image_{{forloop.counter}}">
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="col-md-7">
                             <div class="card-body">
-                                <div class="small text-muted">{{ post.date }}</div>
-                                <h2 class="card-title h4">{{ post.title }}</h2>
+                                <a href="{% url 'article-detail' post.slug %}">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                </a>
                                 <p class="card-text">{{ post.tagline }}</p>
-                                <a class="btn btn-primary" href="{% url 'article-detail' post.slug %}">Read more →</a>
+                                <p class="card-text"><small class="text-muted tag-bottom pb-2">{{ post.created_at|date }} Posted by {{ post.author.username|title }}</small></p>
                             </div>
                         </div>
+                        {% if not forloop.counter|divisibleby:2 %}
+                        <div class="col-md-5">
+                            <a href="{% url 'article-detail' post.slug %}">
+                                <img src="{{ post.image.url }}" class="card-img" alt="post_image_{{forloop.counter}}">
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
-                {% if forloop.last or forloop.counter|divisibleby:2 %}
                 </div>
-                {% endif %}
-                {% endfor %}
+            {% endfor %}
             {% endif %}
         </div>
         <!-- Pagination-->
         {% if is_paginated %}
         {% include "components/pagination.html" %}
         {% endif %}
-    {% comment %} </div>
-    <!-- Side widgets-->
-    {% include "components/sidebar.html" %} {% endcomment %}
 </div>
 
 {% endblock content %}

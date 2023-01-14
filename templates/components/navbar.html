@@ -26,17 +26,11 @@
                     {% endif %}
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         {% if request.user.is_superuser %}
-                        <li><a class="dropdown-item" href="{% url 'article-create' %}">Create Article</a></li>
-                        <li><a class="dropdown-item" href="{% url 'tag-create' %}">Create Tag</a></li>
                         <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'profile-update' %}">Edit Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'password-update' %}">Update Password</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
                         {% else %}
                             {% if request.user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url 'profile-update' %}">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'password-update' %}">Update Password</a></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
                             {% else %}
                             <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
